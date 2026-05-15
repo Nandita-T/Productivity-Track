@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day2day Productivity</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <h1 class="logo">Day2day</h1>
+
+    <nav>
+      <ul>
+        <li class="active">Dashboard</li>
+        <li>Schedule</li>
+        <li>Tasks</li>
+        <li>Analytics</li>
+        <li>Focus Mode</li>
+        <li>Journal</li>
+        <li>Settings</li>
+      </ul>
+    </nav>
+
+    <div class="reminder-card">
+      <p class="small-text">Daily Reminder</p>
+      <p id="reminderText">
+        Small consistent steps build long-term balance.
+      </p>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+
+    <!-- HEADER -->
+    <header class="top-header">
+      <div>
+        <h2 id="viewTitle">Good Evening, Nandita ✨</h2>
+        <p id="viewSubtitle">Organize your day softly.</p>
+      </div>
+
+      <div class="date-card">
+        <span>Today</span>
+        <h3 id="viewDate">Friday, May 15</h3>
+      </div>
+    </header>
+
+    <!-- OVERVIEW -->
+    <section class="overview-grid">
+
+      <div class="overview-card">
+        <p id="overviewLabel1">Daily Progress</p>
+        <h3 id="overviewValue1">72%</h3>
+      </div>
+
+      <div class="overview-card">
+        <p id="overviewLabel2">Sleep Hours</p>
+        <h3 id="overviewValue2">7.5 hrs</h3>
+      </div>
+
+      <div class="overview-card">
+        <p id="overviewLabel3">Focus Score</p>
+        <h3 id="overviewValue3">81</h3>
+      </div>
+
+    </section>
+
+    <!-- SECTION HEADER -->
+    <div class="section-header">
+      <h3 id="sectionHeaderTitle">Daily Sections</h3>
+      <button id="addTaskBtn">+ Add Task</button>
+    </div>
+
+    <div class="task-composer">
+      <input id="newTaskInput" type="text" placeholder="Write a new task" />
+      <select id="newTaskType">
+        <option value="Compulsory">Compulsory</option>
+        <option value="Optional">Optional</option>
+      </select>
+    </div>
+
+    <!-- SECTIONS -->
+    <section class="sections-grid" id="sectionsGrid">
+
+    </section>
+
+  </main>
+
+  <!-- RIGHT PANEL -->
+  <aside class="right-panel">
+
+    <div class="weekly-card">
+      <h3 id="rightCardTitle">Weekly Overview</h3>
+
+      <div class="mini-stat" id="rightStat1">
+        <span>Tasks Completed</span>
+        <strong>38</strong>
+      </div>
+
+      <div class="mini-stat" id="rightStat2">
+        <span>Sleep Consistency</span>
+        <strong>84%</strong>
+      </div>
+
+      <div class="mini-stat" id="rightStat3">
+        <span>Workout Days</span>
+        <strong>4/7</strong>
+      </div>
+
+      <div class="mini-stat" id="rightStat4">
+        <span>Mood Stability</span>
+        <strong>Calm</strong>
+      </div>
+    </div>
+
+    <div class="reflection-card">
+      <h3 id="reflectionTitle">Reflection</h3>
+      <p id="reflectionText">
+        You maintained a balanced schedule today with healthy focus and enough breaks.
+      </p>
+    </div>
+
+  </aside>
+
+  <!-- MOBILE NAV -->
+  <div class="mobile-nav">
+    <span>Home</span>
+    <span>Tasks</span>
+    <span>Analytics</span>
+    <span>Profile</span>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
