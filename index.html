@@ -9,7 +9,7 @@
 <body>
 
   <!-- SIDEBAR -->
-  <aside class="sidebar">
+  <aside class="sidebar" id="sidebarPanel">
     <h1 class="logo">Day2day</h1>
 
     <nav>
@@ -37,8 +37,12 @@
 
     <!-- HEADER -->
     <header class="top-header">
+      <button id="mobileMenuToggle" class="mobile-menu-toggle" type="button" aria-controls="sidebarPanel" aria-expanded="false">
+        Menu
+      </button>
+
       <div>
-        <h2 id="viewTitle">Good Evening, Nandita ✨</h2>
+        <h2 id="viewTitle">Good evening ✨</h2>
         <p id="viewSubtitle">Organize your day softly.</p>
       </div>
 
@@ -125,12 +129,14 @@
 
   </aside>
 
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
   <!-- MOBILE NAV -->
   <div class="mobile-nav">
-    <span>Home</span>
-    <span>Tasks</span>
-    <span>Analytics</span>
-    <span>Profile</span>
+    <button type="button" data-view="dashboard">Home</button>
+    <button type="button" data-view="tasks">Tasks</button>
+    <button type="button" data-view="analytics">Analytics</button>
+    <button type="button" data-view="settings">Profile</button>
   </div>
 
   <script src="script.js"></script>

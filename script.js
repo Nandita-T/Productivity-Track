@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   const storageKey = 'softlife-tasks-v2';
+  const userNameKey = 'softlife-user-name';
 
   const defaultTaskViews = {
     dashboard: [
@@ -82,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const viewCopy = {
     dashboard: {
-      title: 'Good Evening, Nandita ✨',
+      title: 'Good evening ✨',
       subtitle: 'Organize your day softly.',
       date: 'Friday, May 15',
       sectionHeader: 'Daily Sections',
@@ -238,6 +239,12 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const navItems = Array.from(document.querySelectorAll('.sidebar nav li'));
+  const mobileNavItems = Array.from(
+    document.querySelectorAll('.mobile-nav button')
+  );
+  const sidebarPanel = document.getElementById('sidebarPanel');
+  const sidebarOverlay = document.getElementById('sidebarOverlay');
+  const mobileMenuToggle = document.getElementById('mobileMenuToggle');
   const sectionsGrid = document.getElementById('sectionsGrid');
   const viewTitle = document.getElementById('viewTitle');
   const viewSubtitle = document.getElementById('viewSubtitle');
@@ -262,6 +269,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const newTaskInput = document.getElementById('newTaskInput');
   const newTaskType = document.getElementById('newTaskType');
   const reminderText = document.getElementById('reminderText');
+  let userName = 'there';
   const navViewMap = {
     Dashboard: 'dashboard',
     Schedule: 'schedule',
@@ -271,6 +279,70 @@ document.addEventListener('DOMContentLoaded', () => {
     Journal: 'journal',
     Settings: 'settings',
   };
+
+  function getStoredUserName() {
+    const storedName = localStorage.getItem(userNameKey);
+    if (storedName && storedName.trim()) {
+      return storedName.trim();
+    }
+
+    const enteredName = window.prompt(
+      'What name should I use for your greeting?'
+    );
+    const normalizedName = enteredName ? enteredName.trim() : '';
+
+    if (normalizedName) {
+      localStorage.setItem(userNameKey, normalizedName);
+      return normalizedName;
+    }
+
+    return 'there';
+  }
+
+  function getTimeGreeting() {
+    const hour = new Date().getHours();
+
+    if (hour < 12) {
+      return 'Good Morning';
+    }
+
+    if (hour < 17) {
+      return 'Good Afternoon';
+    }
+
+    return 'Good Evening';
+  }
+
+  function getGreetingTitle() {
+    return `${getTimeGreeting()}, ${userName} ✨`;
+  }
+
+  function setSidebarOpen(isOpen) {
+    if (!sidebarPanel) {
+      return;
+    }
+
+    sidebarPanel.classList.toggle('is-open', isOpen);
+    document.body.classList.toggle('sidebar-open', isOpen);
+
+    if (mobileMenuToggle) {
+      mobileMenuToggle.setAttribute('aria-expanded', String(isOpen));
+    }
+
+    if (sidebarOverlay) {
+      sidebarOverlay.classList.toggle('is-visible', isOpen);
+    }
+  }
+
+  function setActiveView(viewKey) {
+    navItems.forEach((navItem) => {
+      navItem.classList.toggle('active', navItem.dataset.view === viewKey);
+    });
+
+    mobileNavItems.forEach((navItem) => {
+      navItem.classList.toggle('active', navItem.dataset.view === viewKey);
+    });
+  }
 
   function loadTasks() {
     try {
@@ -554,6 +626,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const copy = viewCopy[viewKey];
 
     viewTitle.textContent = copy.title;
+    if (viewKey === 'dashboard') {
+      viewTitle.textContent = getGreetingTitle();
+    }
     viewSubtitle.textContent = copy.subtitle;
     viewDate.textContent = generateDynamicDate(viewKey);
     sectionHeaderTitle.textContent = copy.sectionHeader;
@@ -591,6 +666,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     renderSections(viewKey);
     reminderText.textContent = generateDynamicReminder();
+    setActiveView(viewKey);
     saveTasks();
   }
 
@@ -614,11 +690,30 @@ document.addEventListener('DOMContentLoaded', () => {
     item.dataset.view = navViewMap[item.textContent.trim()] || 'dashboard';
 
     item.addEventListener('click', () => {
-      navItems.forEach((navItem) => navItem.classList.remove('active'));
-      item.classList.add('active');
+      setSidebarOpen(false);
       renderView(item.dataset.view);
     });
   });
+
+  mobileNavItems.forEach((item) => {
+    item.addEventListener('click', () => {
+      const viewKey = item.dataset.view || 'dashboard';
+
+      setSidebarOpen(false);
+      renderView(viewKey);
+    });
+  });
+
+  if (mobileMenuToggle) {
+    mobileMenuToggle.addEventListener('click', () => {
+      const isOpen = !sidebarPanel?.classList.contains('is-open');
+      setSidebarOpen(isOpen);
+    });
+  }
+
+  if (sidebarOverlay) {
+    sidebarOverlay.addEventListener('click', () => setSidebarOpen(false));
+  }
 
   addTaskBtn.addEventListener('click', () => addTask(activeView));
 
@@ -629,5 +724,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  userName = getStoredUserName();
   renderView('dashboard');
 });
